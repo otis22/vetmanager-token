@@ -9,7 +9,8 @@ use Otis22\VetmanagerToken\Credentials\AppName;
 use Otis22\VetmanagerToken\Credentials\Login;
 use Otis22\VetmanagerToken\Credentials\ByLoginPassword;
 use Otis22\VetmanagerToken\Credentials\Password;
-use Otis22\VetmanagerUrl\Url;
+
+use function Otis22\VetmanagerUrl\url;
 
 function credentials(string $login, string $password, string $app_name): Credentials
 {
@@ -20,11 +21,11 @@ function credentials(string $login, string $password, string $app_name): Credent
     );
 }
 
-function token(Credentials $credentials, Url $url): Token
+function token(Credentials $credentials, string $domainName): Token
 {
     return new Token\FromGateway(
         $credentials,
-        $url,
+        url($domainName),
         new Client()
     );
 }

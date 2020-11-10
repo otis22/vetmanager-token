@@ -13,7 +13,9 @@ use Otis22\VetmanagerUrl\Url\Part\Domain;
 use PHPUnit\Framework\TestCase;
 use Otis22\VetmanagerUrl\Url;
 
+use function Otis22\VetmanagerToken\credentials;
 use function Otis22\VetmanagerToken\not_empty_env;
+use function Otis22\VetmanagerToken\token;
 
 class FromGatewayTest extends TestCase
 {
@@ -39,6 +41,21 @@ class FromGatewayTest extends TestCase
                         ),
                         new Client()
                     )
+                )->asString()
+            ) > 5
+        );
+    }
+    public function testFacade(): void
+    {
+        $this->assertTrue(
+            strlen(
+                token(
+                    credentials(
+                        not_empty_env('TEST_LOGIN'),
+                        not_empty_env('TEST_PASSWORD'),
+                        "myapp"
+                    ),
+                    not_empty_env('TEST_DOMAIN_NAME')
                 )->asString()
             ) > 5
         );

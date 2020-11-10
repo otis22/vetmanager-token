@@ -19,7 +19,7 @@ class FunctionsTest extends TestCase
         $this->assertTrue(
             token(
                 credentials('test', 'test', 'test'),
-                new Concrete('test')
+                'test'
             ) instanceof Token
         );
     }
