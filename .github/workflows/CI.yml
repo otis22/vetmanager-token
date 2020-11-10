@@ -1,0 +1,41 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4']
+    steps:
+      - uses: actions/checkout@v1
+      - uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, gd, zip
+          ini-values: max_execution_time=600, memory_limit=-1
+          coverage: xdebug
+      - name: Validate composer.json
+        run: |
+          curl -sS https://getcomposer.org/installer | php -- --filename=composer
+          composer validate
+      - name: Install dependency
+        run: |
+          composer install
+      - name: Security check
+        run: |
+          vendor/bin/security-checker security:check
+      - name: Static analyzes
+        run: |
+          composer static
+      - name: Run tests
+        run: |
+          composer unit-tests
+      - name: Run integration tests
+        env:
+          TEST_LOGIN: ${{ secrets.TEST_LOGIN }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          TEST_DOMAIN_NAME: ${{ secrets.TEST_DOMAIN_NAME }}
+        run: |
+          composer integration-tests
