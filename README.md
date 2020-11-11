@@ -1,5 +1,5 @@
 ![GitHub CI](https://github.com/otis22/vetmanager-token/workflows/CI/badge.svg)
-
+[![Coverage Status](https://coveralls.io/repos/github/otis22/vetmanager-token/badge.svg?branch=main)](https://coveralls.io/github/otis22/vetmanager-token?branch=main)
 # vetmanager-token
 
 Vetmanager - CRM for veterinary with REST API. vetmanager-token is library for work with token auth in Vetmanager API.
