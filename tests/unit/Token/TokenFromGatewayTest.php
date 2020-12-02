@@ -39,13 +39,13 @@ class TokenFromGatewayTest extends TestCase
 
         $this->assertEquals(
             "add2da284cb3cd670729df1695065e9768a4f409",
-            strval(
+            (
                 new FromGateway(
                     new FakeCredentials(),
                     new Url\Concrete('https://fake.url'),
                     new Client(['handler' => $handlerStack])
                 )
-            )
+            )->asString()
         );
     }
     public function testWrongLoginOrPassword(): void

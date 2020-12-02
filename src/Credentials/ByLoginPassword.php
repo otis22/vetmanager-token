@@ -40,9 +40,9 @@ final class ByLoginPassword implements Credentials
     public function asAssoc(): array
     {
         return [
-            "login" => strval($this->login),
-            "password" => strval($this->password),
-            "app_name" => strval($this->appName),
+            "login" => $this->login->asString(),
+            "password" => $this->password->asString(),
+            "app_name" => $this->appName->asString(),
         ];
     }
 }

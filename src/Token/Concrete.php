@@ -29,12 +29,4 @@ final class Concrete implements Token
     {
         return $this->token;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function __toString(): string
-    {
-        return $this->asString();
-    }
 }

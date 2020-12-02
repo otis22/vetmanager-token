@@ -55,14 +55,6 @@ final class FromGateway implements Token
         return $this->token;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function __toString(): string
-    {
-        return $this->asString();
-    }
-
     private function token(): string
     {
         try {

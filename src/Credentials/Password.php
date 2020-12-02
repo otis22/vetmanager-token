@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Otis22\VetmanagerToken\Credentials;
 
-use Otis22\PhpInterfaces\Stringify;
+use ElegantBro\Interfaces\Stringify;
 
 final class Password implements Stringify
 {
@@ -29,13 +29,5 @@ final class Password implements Stringify
     public function asString(): string
     {
         return $this->password;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __toString(): string
-    {
-        return $this->asString();
     }
 }
