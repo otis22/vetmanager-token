@@ -8,7 +8,7 @@ use Otis22\VetmanagerToken\Credentials;
 
 final class FakeCredentials implements Credentials
 {
-    public function asAssoc(): array
+    public function asKeyValue(): array
     {
         return [
             'login' => 'test',

@@ -62,7 +62,7 @@ final class FromGateway implements Token
                 "POST",
                 $this->authUrl(),
                 [
-                    "form_params" => $this->credentials->asAssoc()
+                    "form_params" => $this->credentials->asKeyValue()
                 ]
             );
             $json = $this->jsonFromResponse($response);

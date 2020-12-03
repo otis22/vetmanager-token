@@ -37,7 +37,7 @@ final class ByLoginPassword implements Credentials
     /**
      * @inheritDoc
      */
-    public function asAssoc(): array
+    public function asKeyValue(): array
     {
         return [
             "login" => $this->login->asString(),

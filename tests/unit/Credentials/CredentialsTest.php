@@ -19,7 +19,7 @@ class CredentialsTest extends TestCase
                         new Password("test"),
                         new AppName("test")
                     )
-                )->asAssoc()
+                )->asKeyValue()
             )
         );
     }

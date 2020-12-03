@@ -2,8 +2,8 @@
 
 namespace Otis22\VetmanagerToken;
 
-use Otis22\PhpInterfaces\Assocify;
+use Otis22\PhpInterfaces\KeyValue;
 
-interface Credentials extends Assocify
+interface Credentials extends KeyValue
 {
 }
