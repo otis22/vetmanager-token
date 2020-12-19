@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "otis22/vetmanager-url": "^0.1",
+        "otis22/vetmanager-url": "~0.1",
         "otis22/php-interfaces": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "ext-json": "*",

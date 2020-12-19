@@ -77,7 +77,7 @@ final class FromGateway implements Token
 
     private function authUrl(): string
     {
-        return $this->url . "/token_auth.php";
+        return $this->url->asString() . "/token_auth.php";
     }
 
     private function notValidStatusCode(int $status): bool
