@@ -11,7 +11,7 @@
     "require": {
         "otis22/vetmanager-url": "~0.1",
         "otis22/php-interfaces": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.1",
         "ext-json": "*",
         "elegant-bro/interfaces": "^1.1"
     },
@@ -21,7 +21,7 @@
         "phpstan/phpstan": "^0.12.19",
         "otis22/php-coverage-checker": "^1.2",
         "sensiolabs/security-checker": "^6.0",
-        "wapmorgan/php-code-fixer": "^2.0",
+        "wapmorgan/php-deprecation-detector": "^2.0",
         "php-coveralls/php-coveralls": "^2.4",
         "phpunit/phpcov": "^8.0"
     },
@@ -46,7 +46,7 @@
             "vendor/bin/phpunit --testsuite integration"
         ],
         "static": [
-            "vendor/bin/phpcs --ignore-annotations --standard=PSR12 src tests && vendor/bin/phpcf tests src && vendor/bin/phpstan analyse --level=max src tests"
+            "vendor/bin/phpcs --ignore-annotations --standard=PSR12 src tests && vendor/bin/phpdd tests src && vendor/bin/phpstan analyse --level=max src tests"
         ],
         "check-composer": [
             "composer validate && vendor/bin/security-checker security:check"
