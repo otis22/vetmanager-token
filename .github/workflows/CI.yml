@@ -38,7 +38,7 @@ jobs:
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           TEST_DOMAIN_NAME: ${{ secrets.TEST_DOMAIN_NAME }}
         run: |
-          composer integration-tests
+          composer integration
       - name: Upload coverage results to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
