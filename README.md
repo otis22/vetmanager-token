@@ -20,32 +20,41 @@ echo token($credentials, $domainName)->asString();
 ```
 
 
-## For contributors 
+## Contributing
 
-#### Run docker container
+For run all tests
+```shell
+make all
 ```
-cd docker
-docker-compose up
+or connect to terminal
+```shell
+make exec
+```
+*Dafault php version is 7.4*. Use PHP_VERSION= for using custom version.
+```shell
+make all PHP_VERSION=8.0
+# run both 
+make all PHP_VERSION=7.4 && make all PHP_VERSION=8.0
 ```
 
-now you can connect to terminal
+*For integration tests copy .env.example to .env and fill with yours values*
 
-```
-docker exec -it vetmanager-token /bin/bash
-```
-
-## Run tests
-
-```
-#validate composer json
-composer check-composer
-
-#static analyzes and codestyle 
-composer static
-
-#run unit tests
-composer unit-tests
-
-#run all tests
-composer all-tests
+all commands
+```shell
+# security check
+make security
+# composer install
+make install
+# composer install with --no-dev
+make install-no-dev
+# check code style
+make style
+# run static analyze tools
+make static-analyze
+# run unit tests
+make unit
+#  check coverage
+make coverage
+# check integration, .env required
+make integration
 ```

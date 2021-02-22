@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
     steps:
       - uses: actions/checkout@v1
       - uses: shivammathur/setup-php@v1
@@ -23,15 +23,15 @@ jobs:
       - name: Install dependency
         run: |
           composer install
-      - name: Security check
+      - name: Check code standart
         run: |
-          vendor/bin/security-checker security:check
-      - name: Static analyzes
+          composer check-style
+      - name: Analyze code
         run: |
-          composer static
+          composer check-static-analyze
       - name: Run tests
         run: |
-          composer unit-tests
+          composer unit
       - name: Run integration tests
         env:
           TEST_LOGIN: ${{ secrets.TEST_LOGIN }}

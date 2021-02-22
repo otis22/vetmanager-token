@@ -7,7 +7,9 @@ namespace Otis22\VetmanagerToken\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
 use Otis22\VetmanagerUrl\Url;
 use PHPUnit\Framework\TestCase;
 use Otis22\VetmanagerToken\Credentials\FakeCredentials;
@@ -48,9 +50,26 @@ class TokenFromGatewayTest extends TestCase
             )->asString()
         );
     }
-    public function testWrongLoginOrPassword(): void
+
+    public function testExceptionWhenServerError(): void
     {
         $this->expectException(\Exception::class);
+        $mock = new MockHandler(
+            [
+                new RequestException("Error Communicating with Server", new Request('GET', 'test'))
+            ]
+        );
+        $handlerStack = HandlerStack::create($mock);
+        $token = new FromGateway(
+            new FakeCredentials(),
+            new Url\Concrete('https://fake.url'),
+            new Client(['handler' => $handlerStack])
+        );
+        $token->asString();
+    }
+
+    public function testWrongLoginOrPasswordCheckAnErrorMessage(): void
+    {
         $mock = new MockHandler(
             [
                 new Response(
@@ -70,7 +89,12 @@ class TokenFromGatewayTest extends TestCase
             new Url\Concrete('https://fake.url'),
             new Client(['handler' => $handlerStack])
         );
-        $token->asString();
+        try {
+            $token->asString();
+        } catch (\Throwable $exception) {
+            $this->assertStringContainsString('Wrong authentification', $exception->getMessage());
+            $this->assertStringContainsString('Неправильный логин или пароль.', $exception->getMessage());
+        }
     }
 
     public function testWrongJson(): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Otis22\VetmanagerToken\Token;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use Otis22\VetmanagerToken\Token;
 use Otis22\VetmanagerUrl\Url;
 use Psr\Http\Message\ResponseInterface;
@@ -55,24 +56,56 @@ final class FromGateway implements Token
         return $this->token;
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     private function token(): string
     {
         try {
-            $response = $this->client->request(
+            $response = $this->request();
+            $json = $this->jsonFromResponse($response);
+            if ($this->notValidStatusCode($response->getStatusCode())) {
+                throw new \Exception($this->errorMessage($json));
+            }
+            return $json->data->token;
+        } catch (\Throwable $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
+        }
+    }
+
+    /**
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function request(): ResponseInterface
+    {
+        try {
+            return $this->client->request(
                 "POST",
                 $this->authUrl(),
                 [
                     "form_params" => $this->credentials->asKeyValue()
                 ]
             );
-            $json = $this->jsonFromResponse($response);
-            if ($this->notValidStatusCode($response->getStatusCode())) {
-                throw new \Exception($json->title);
+        } catch (RequestException $exception) {
+            if ($exception->hasResponse() && $response = $exception->getResponse()) {
+                return $response;
             }
-            return $json->data->token;
-        } catch (\Throwable $exception) {
-            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
+            throw new \Exception(
+                "Undefinded exception: " . $exception->getMessage(),
+                $exception->getCode(),
+                $exception
+            );
         }
+    }
+    /**
+     * @param \stdClass $json
+     * @return string
+     */
+    private function errorMessage(\stdClass $json): string
+    {
+        return "title: {$json->title}, detail: {$json->detail}";
     }
 
     private function authUrl(): string

@@ -60,4 +60,19 @@ class FromGatewayTest extends TestCase
             ) > 5
         );
     }
+    public function testFacadeWithWrongPassword(): void
+    {
+        try {
+            token(
+                credentials(
+                    not_empty_env('TEST_LOGIN'),
+                    'test password',
+                    "myapp"
+                ),
+                not_empty_env('TEST_DOMAIN_NAME')
+            )->asString();
+        } catch (\Throwable $exception) {
+            $this->assertStringContainsString('пароль', $exception->getMessage());
+        }
+    }
 }
