@@ -30,4 +30,17 @@ class TokenFromGatewayTest extends TestCase
             )->asString()
         );
     }
+    public function testValidTokenWithException(): void
+    {
+        $this->expectException(\Exception::class);
+        $token = new FromGateway(
+            new class implements JsonResponseInterface {
+                public function asKeyValue(): array
+                {
+                    throw new \Exception('test');
+                }
+            }
+        );
+        $token->asString();
+    }
 }
