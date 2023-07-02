@@ -30,11 +30,11 @@ or connect to terminal
 ```shell
 make exec
 ```
-*Dafault php version is 7.4*. Use PHP_VERSION= for using custom version.
+*Dafault php version is 8.0*. Use PHP_VERSION= for using custom version. Project works only with 8.0 and 8.1 version.
 ```shell
-make all PHP_VERSION=8.0
+make all PHP_VERSION=8.1
 # run both 
-make all PHP_VERSION=7.4 && make all PHP_VERSION=8.0
+make all PHP_VERSION=8.1 && make all
 ```
 
 *For integration tests copy .env.example to .env and fill with yours values*

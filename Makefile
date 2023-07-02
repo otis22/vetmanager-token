@@ -1,4 +1,4 @@
-default_php_version:=7.4
+default_php_version:=8.0
 php_version:=$(PHP_VERSION)
 ifndef PHP_VERSION
 	php_version:=$(default_php_version)
