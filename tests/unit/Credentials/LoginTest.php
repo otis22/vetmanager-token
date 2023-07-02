@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class LoginTest extends TestCase
 {
-    public function testValidLogin(): void
+    public function testValid(): void
     {
         $this->assertEquals(
             (new Login('test'))->asString(),
@@ -33,7 +33,7 @@ class LoginTest extends TestCase
     /**
      * @dataProvider invalidData
      */
-    public function testInvalidLogin(string $invalidLogin): void
+    public function testInvalid(string $invalidLogin): void
     {
         $this->expectException(\Exception::class);
         (new Login($invalidLogin))->asString();

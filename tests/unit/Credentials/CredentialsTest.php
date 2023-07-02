@@ -16,7 +16,7 @@ class CredentialsTest extends TestCase
                 (
                     new ByLoginPassword(
                         new Login("test"),
-                        new Password("test"),
+                        new Password("testGHGHG33"),
                         new AppName("test")
                     )
                 )->asKeyValue()

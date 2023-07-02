@@ -23,11 +23,23 @@ final class Password implements Stringify
         $this->password = $password;
     }
 
+    private function isNotValid(): bool
+    {
+        return !preg_match(
+            "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/im",
+            $this->password
+        );
+    }
+
     /**
      * @inheritDoc
      */
     public function asString(): string
     {
+        if ($this->isNotValid()) {
+            throw new \Exception("Password is not valid. "
+                . "Password must contains digits and latin letters and can't be less than 8 symbols");
+        }
         return $this->password;
     }
 }

@@ -37,24 +37,8 @@ final class Login implements Stringify
     {
         if ($this->isNotValid()) {
             throw new \Exception("Login is not valid. "
-                . "Login must contains only latin letters and can't be less than 4 symbols");
+                . "Login must contains only digits and latin letters and can't be less than 4 symbols");
         }
         return $this->login;
-        /* TODOL
-
-        валидатор пароля
-        валидатор логина  login: /^[-_A-Za-z0-9]{4,}$/i
-       passwordSingle: function(v) {
-        var me = this,
-            reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
-        if (v && !reg.test(v)) {
-            return _t('Пароль введен неверно. Пароль должен быть не короче 8 символов и содержать ' +
-                'цифры и латинские символы (0-9, a-Z)');
-        } else {
-            return true;
-        }
-    },
-
-*/
     }
 }
