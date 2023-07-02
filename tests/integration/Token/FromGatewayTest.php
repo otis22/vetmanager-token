@@ -44,7 +44,7 @@ class FromGatewayTest extends TestCase
             token(
                 credentials(
                     not_empty_env('TEST_LOGIN'),
-                    'test password',
+                    'testpassword1',
                     "myapp"
                 ),
                 not_empty_env('TEST_DOMAIN_NAME')
