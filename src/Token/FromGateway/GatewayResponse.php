@@ -56,10 +56,11 @@ final class GatewayResponse implements GatewayResponseInterface
      */
     private function request(): ResponseInterface
     {
+        $tokenAuthUrl = $this->tokenAuthUrl->asString();
         try {
              return $this->client->request(
                  "POST",
-                 $this->tokenAuthUrl->asString(),
+                 $tokenAuthUrl,
                  [
                     "form_params" => $this->credentials->asKeyValue()
                  ]

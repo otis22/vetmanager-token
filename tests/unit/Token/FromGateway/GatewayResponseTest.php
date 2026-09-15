@@ -74,4 +74,32 @@ class GatewayResponseTest extends TestCase
         );
         $response->asString();
     }
+
+    public function testUrlResolutionErrorIsNotTreatedAsTokenResponse(): void
+    {
+        $exception = new RequestException(
+            'Billing unavailable',
+            new Request('GET', 'https://billing.example/host/clinic'),
+            new Response(404, [], '{"error":"unknown clinic"}')
+        );
+        $tokenHandler = new MockHandler([]);
+        $response = new GatewayResponse(
+            new Url\WithURI(
+                new \Otis22\VetmanagerToken\Url\Lazy(function () use ($exception): Url {
+                    throw $exception;
+                }),
+                '/token_auth.php'
+            ),
+            new FakeCredentials(),
+            new Client(['handler' => HandlerStack::create($tokenHandler)])
+        );
+
+        try {
+            $response->asString();
+            $this->fail('Expected the original Billing exception');
+        } catch (RequestException $actual) {
+            $this->assertSame($exception, $actual);
+        }
+        $this->assertNull($tokenHandler->getLastRequest());
+    }
 }

@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonResponseTest extends TestCase
 {
-
     public function testAsKeyValueWithNotEmptyJson(): void
     {
         $this->assertEquals(

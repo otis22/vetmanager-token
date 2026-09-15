@@ -8,34 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class LoginTest extends TestCase
 {
-    public function testValid(): void
+    public function testValueIsPassedThroughUnchanged(): void
     {
-        $this->assertEquals(
-            (new Login('test'))->asString(),
-            'test'
-        );
-    }
-
-    /**
-     * @return array<int, array<int, string>>
-     */
-    public function invalidData(): array
-    {
-        return [
-            [''],
-            ['.'],
-            ['Y'],
-            ['yyy'],
-            ['гриша']
-        ];
-    }
-
-    /**
-     * @dataProvider invalidData
-     */
-    public function testInvalid(string $invalidLogin): void
-    {
-        $this->expectException(\Exception::class);
-        (new Login($invalidLogin))->asString();
+        foreach (['', 'a', 'user@example.com', 'Abc12345!', 'гриша', " leading and trailing "] as $value) {
+            $this->assertSame($value, (new Login($value))->asString());
+        }
     }
 }

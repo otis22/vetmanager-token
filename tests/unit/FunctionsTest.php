@@ -23,4 +23,13 @@ class FunctionsTest extends TestCase
             ) instanceof Token
         );
     }
+
+    public function testTokenDefersInvalidDomainErrorUntilUsed(): void
+    {
+        $token = token(credentials('test', 'TestPassword123', 'test'), 'http://clinic.example:invalid');
+        $this->assertInstanceOf(Token::class, $token);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Can't parse url or host string");
+        $token->asString();
+    }
 }

@@ -12,7 +12,7 @@ final class FakeCredentials implements Credentials
     {
         return [
             'login' => 'test',
-            'password' => 'testPass111',
+            'password' => 'test',
             'app_name' => 'test'
         ];
     }
