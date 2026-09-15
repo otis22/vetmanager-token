@@ -38,8 +38,9 @@ jobs:
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           TEST_DOMAIN_NAME: ${{ secrets.TEST_DOMAIN_NAME }}
         run: |
-          composer integration
+          composer integration -- --no-coverage
       - name: Upload coverage results to Coveralls
+        if: matrix.php-versions == '8.0'
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
