@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class ValidStatusResponseTest extends TestCase
 {
-
     public function testReponseWithValidStatusCode(): void
     {
         $this->assertEquals(

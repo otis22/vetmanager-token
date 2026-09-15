@@ -8,5 +8,4 @@ use ElegantBro\Interfaces\Stringify;
 
 interface Token extends Stringify
 {
-
 }

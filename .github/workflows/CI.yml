@@ -38,10 +38,32 @@ jobs:
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           TEST_DOMAIN_NAME: ${{ secrets.TEST_DOMAIN_NAME }}
         run: |
-          composer integration
+          composer integration -- --no-coverage
       - name: Upload coverage results to Coveralls
+        if: matrix.php-versions == '8.0'
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer global require php-coveralls/php-coveralls
           php-coveralls --coverage_clover=build/logs/clover.xml -v
+  url-compatibility:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        url-version: ['0.3.2', '1.1.0']
+        php-version: ['7.4', '8.0']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, gd, zip
+          coverage: xdebug
+          tools: composer:v2
+      - name: Install selected URL version
+        run: composer update --with otis22/vetmanager-url:${{ matrix.url-version }} --prefer-dist --no-interaction
+      - name: Run offline unit tests
+        run: composer unit
+      - name: Analyze code with selected URL version
+        run: composer check-static-analyze

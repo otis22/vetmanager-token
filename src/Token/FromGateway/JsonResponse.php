@@ -26,7 +26,7 @@ final class JsonResponse implements JsonResponseInterface
     public function asKeyValue(): array
     {
         $responseText = $this->response->asString();
-        $json = json_decode($this->response->asString(), true);
+        $json = json_decode($responseText, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception("Invalid json response: {$responseText}");
         }

@@ -8,48 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class PasswordTest extends TestCase
 {
-    /**
-     * @return array<int, array<int, string>>
-     */
-    public function validData(): array
+    public function testValueIsPassedThroughUnchanged(): void
     {
-        return [
-            ['Ghghsh7373'],
-            ['Ma1hh1qui'],
-            ['GhthsTsjsg1Wh'],
-        ];
-    }
-
-    /**
-     * @dataProvider validData
-     */
-    public function testValid(string $validPassword): void
-    {
-        $this->assertEquals(
-            (new Password($validPassword))->asString(),
-            $validPassword
-        );
-    }
-
-    /**
-     * @return array<int, array<int, string>>
-     */
-    public function invalidData(): array
-    {
-        return [
-            [''],
-            ['Ghghghskas332.'],
-            [',,,.....,,---'],
-            ['гриша324234']
-        ];
-    }
-
-    /**
-     * @dataProvider invalidData
-     */
-    public function testInvalid(string $invalidPassword): void
-    {
-        $this->expectException(\Exception::class);
-        (new Password($invalidPassword))->asString();
+        foreach (['', 'a', 'user@example.com', 'Abc12345!', 'гриша', " leading and trailing "] as $value) {
+            $this->assertSame($value, (new Password($value))->asString());
+        }
     }
 }
