@@ -51,13 +51,17 @@
 
 Точные команды запуска для каждой пары: `docker run --rm -v <абсолютный временный каталог>:/app -w /app <образ> <команда>`, где образы `vetmanager-token-matrix:7.3`, `vetmanager-token-matrix:7.4`, `vetmanager-token:8.0`; каталоги соответственно `/tmp/vetmanager_token_73_url03`, `/tmp/vetmanager_token_74_url03`, `/tmp/vetmanager_token_74_url11`, основной checkout для 8.0/0.3.2 и `/tmp/vetmanager-token-matrix.wqVXeT` для 8.0/1.1.0. Сборка временных образов: `docker build --build-arg VERSION=7.3 --tag vetmanager-token-matrix:7.3 /tmp/vetmanager-token-docker-7.3` и аналогично `7.4`. Логи запусков находятся в `/tmp/vetmanager-token-{73-url03,74-url03,74-url11}.log`; файлы `/tmp` не входят в репозиторий.
 
-| PHP | URL / Guzzle | Тесты / assertions / skipped | Coverage | Ожидаемый URI в новых тестах |
+После первого коммита отдельно воспроизведены две URL 0.3.2 job текущего CI, где Composer делает `update`, а не `install` из lock. В `/tmp/vetmanager_token_74_url03_updated` и `/tmp/vetmanager_token_80_url03_updated` выполнены `composer update --with otis22/vetmanager-url:0.3.2 --prefer-dist --no-interaction`, `composer check-style`, `composer check-static-analyze`, PHPUnit с Xdebug и coverage-checker по указанному выше Docker-шаблону; все команды exit 0. В этих разрешениях URL 0.3.2, Guzzle 7.16.0; по 44 теста, 145 assertions, 3 skipped, покрытие 93.93%. Логи: `/tmp/vetmanager-token-74-url03-updated.log`, `/tmp/vetmanager-token-80-url03-updated.log`. Эти две проверки проведены после независимого ревью diff и не меняли проверенный код.
+
+| PHP | Разрешение, URL / Guzzle | Тесты / assertions / skipped | Coverage | Ожидаемый URI в новых тестах |
 | --- | --- | --- | ---: | --- |
-| 7.3.33 | 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | `https://clinic.example/token_auth.php`, assertion пройден |
-| 7.4.33 | 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | тот же, assertion пройден |
-| 7.4.33 | 1.1.0 / 7.16.0 | 44 / 159 / 1 | 94.45% | тот же, assertion пройден |
-| 8.0.30 | 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | тот же, assertion пройден |
-| 8.0.30 | 1.1.0 / 7.16.0 | 44 / 159 / 1 | 94.45% | тот же, assertion пройден |
+| 7.3.33 | lock, 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | `https://clinic.example/token_auth.php`, assertion пройден |
+| 7.4.33 | lock, 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | тот же, assertion пройден |
+| 8.0.30 | lock, 0.3.2 / 7.3.0 | 44 / 145 / 3 | 94.51% | тот же, assertion пройден |
+| 7.4.33 | update, 0.3.2 / 7.16.0 | 44 / 145 / 3 | 93.93% | тот же, assertion пройден |
+| 8.0.30 | update, 0.3.2 / 7.16.0 | 44 / 145 / 3 | 93.93% | тот же, assertion пройден |
+| 7.4.33 | update, 1.1.0 / 7.16.0 | 44 / 159 / 1 | 94.45% | тот же, assertion пройден |
+| 8.0.30 | update, 1.1.0 / 7.16.0 | 44 / 159 / 1 | 94.45% | тот же, assertion пройден |
 
 Штатный `make all` для PHP 7.3/7.4 не проходит на этапе сборки исходного Dockerfile. Успех обходного локального контейнера не означает успеха штатного `make` и не устанавливает официальную матрицу поддержки. Не проверены minimum dependency resolutions, production install и сетевой integration gate. Нынешние тесты не доказывают запрос Billing через фасад `token()`, потому что он создаёт клиент внутри себя; существующие тесты проверяют Billing через `BillingUrl`/`Url\Lazy` и MockHandler. Интеграцию не запускали без подтверждённой тестовой клиники.
 
