@@ -71,11 +71,11 @@ or connect to terminal
 ```shell
 make exec
 ```
-*Dafault php version is 8.0*. Use PHP_VERSION= for using custom version. Project works only with 8.0 and 8.1 version.
+The default PHP version is 8.0. The 0.2.x line supports PHP 7.3, 7.4 and 8.0. PHP 8.1 has not been verified for this line. Use `PHP_VERSION=` to select a supported version. `vetmanager-url` 1.1 requires PHP 7.4 or newer; PHP 7.3 uses URL 0.x.
 ```shell
-make all PHP_VERSION=8.1
-# run both 
-make all PHP_VERSION=8.1 && make all
+make all PHP_VERSION=7.3
+make all PHP_VERSION=7.4
+make all PHP_VERSION=8.0
 ```
 
 *For integration tests copy .env.example to .env and fill with yours values*
