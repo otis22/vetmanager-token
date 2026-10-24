@@ -1,0 +1,49 @@
+name: Integration tests
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_clinic_confirmed:
+        description: Confirm TEST_* credentials belong to an isolated test clinic
+        required: true
+        type: boolean
+
+jobs:
+  integration:
+    if: inputs.test_clinic_confirmed == true
+    runs-on: ubuntu-latest
+    environment: integration-test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify test clinic assignment
+        env:
+          TEST_CLINIC_CONFIRMED: ${{ vars.TEST_CLINIC_CONFIRMED }}
+          TEST_LOGIN: ${{ secrets.INTEGRATION_TEST_LOGIN }}
+          TEST_PASSWORD: ${{ secrets.INTEGRATION_TEST_PASSWORD }}
+          TEST_DOMAIN_NAME: ${{ secrets.INTEGRATION_TEST_DOMAIN_NAME }}
+        run: |
+          if [ "$TEST_CLINIC_CONFIRMED" != 'true' ]; then
+            echo 'Test clinic assignment is not confirmed'
+            exit 1
+          fi
+          if [ -z "$TEST_LOGIN" ] || [ -z "$TEST_PASSWORD" ] || [ -z "$TEST_DOMAIN_NAME" ]; then
+            echo 'Integration test credentials are not configured'
+            exit 1
+          fi
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, gd, zip
+          coverage: none
+          tools: composer:v2
+      - name: Install dependencies
+        run: composer install --no-interaction
+      - name: Run integration tests
+        env:
+          TEST_LOGIN: ${{ secrets.INTEGRATION_TEST_LOGIN }}
+          TEST_PASSWORD: ${{ secrets.INTEGRATION_TEST_PASSWORD }}
+          TEST_DOMAIN_NAME: ${{ secrets.INTEGRATION_TEST_DOMAIN_NAME }}
+        run: composer integration -- --no-coverage

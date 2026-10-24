@@ -2,6 +2,9 @@ name: CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,20 +35,6 @@ jobs:
       - name: Run tests
         run: |
           composer unit
-      - name: Run integration tests
-        env:
-          TEST_LOGIN: ${{ secrets.TEST_LOGIN }}
-          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-          TEST_DOMAIN_NAME: ${{ secrets.TEST_DOMAIN_NAME }}
-        run: |
-          composer integration -- --no-coverage
-      - name: Upload coverage results to Coveralls
-        if: matrix.php-versions == '8.0'
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls --coverage_clover=build/logs/clover.xml -v
   url-compatibility:
     runs-on: ubuntu-latest
     strategy:
