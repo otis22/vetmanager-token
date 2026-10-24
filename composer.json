@@ -11,7 +11,7 @@
     "require": {
         "php": ">=7.3 <8.1",
         "otis22/vetmanager-url": "~0.1 || ^1.1",
-        "otis22/php-interfaces": "^1.1.1",
+        "otis22/php-interfaces": "^1.0",
         "guzzlehttp/guzzle": "^7.1",
         "ext-json": "*",
         "elegant-bro/interfaces": "^1.1"

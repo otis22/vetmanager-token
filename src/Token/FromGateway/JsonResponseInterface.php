@@ -8,4 +8,6 @@ use Otis22\PhpInterfaces\KeyValue;
 
 interface JsonResponseInterface extends KeyValue
 {
+    /** @return array<string, mixed> */
+    public function asKeyValue(): array;
 }

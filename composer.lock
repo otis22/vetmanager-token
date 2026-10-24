@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ecae973407d968c39119c87fd509acb",
+    "content-hash": "cf4c14e997788624b414fcffb066111a",
     "packages": [
         {
             "name": "elegant-bro/interfaces",
